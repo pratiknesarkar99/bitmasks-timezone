@@ -2,9 +2,9 @@ import { citiesWithMasks, getBitmask } from "./data.js";
 
 function validateOffset(gmtOffset) {
   const offset = parseFloat(gmtOffset);
-  // Half-hour offsets are multiples of 0.5, so we check for that too.
-  if (isNaN(offset) || offset < -12 || offset > 12 || (offset * 2) % 1 !== 0) {
-    return { error: "Please enter a valid GMT offset between -12 and +12 in 30-minute increments (e.g. 5.5 for GMT+5:30)." };
+  // Real offsets go down to 15-minute increments (e.g. Kathmandu +5:45 = 5.75).
+  if (isNaN(offset) || offset < -12 || offset > 12 || (offset * 4) % 1 !== 0) {
+    return { error: "Please enter a valid GMT offset between -12 and +12 (e.g. 5.5 for GMT+5:30, 5.75 for GMT+5:45)." };
   }
   return { offset };
 }
