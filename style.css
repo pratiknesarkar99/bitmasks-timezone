@@ -198,3 +198,33 @@ button:active {
   accent-color: #1c1c1b;
   cursor: pointer;
 }
+
+/* Results header with count */
+
+.results-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.results-header h2 {
+  margin-bottom: 0;
+}
+
+.count-badge {
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: #1c1c1b;
+  color: #fff;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+}
+
+/* Count emphasis inside results heading */
+
+.count-number {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1c1c1b;
+}

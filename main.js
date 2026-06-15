@@ -52,16 +52,17 @@ function handleSearch() {
   resultsSection.hidden = false;
 
   const offsetLabel = formatOffset(input.value);
+  const count = results.length;
 
-  if (results.length === 0) {
-    resultsHeading.textContent = `No cities found`;
+  if (count === 0) {
+    resultsHeading.innerHTML = `No cities found`;
     resultsList.innerHTML = `<li style="color:#6b6b6b; font-size:0.88rem;">No cities in our list match this search.</li>`;
     return;
   }
 
-  resultsHeading.textContent = mode === "include"
-    ? `${results.length} ${results.length === 1 ? "city" : "cities"} in ${offsetLabel}`
-    : `${results.length} ${results.length === 1 ? "city" : "cities"} outside ${offsetLabel}`;
+  const cityWord = count === 1 ? "city" : "cities";
+  const context = mode === "include" ? `in ${offsetLabel}` : `outside ${offsetLabel}`;
+  resultsHeading.innerHTML = `<span class="count-number">${count}</span> ${cityWord} ${context}`;
 
   resultsList.innerHTML = results
     .map(city => `

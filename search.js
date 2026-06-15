@@ -1,36 +1,30 @@
 import { citiesWithMasks, getBitmask } from "./data.js";
 
-// Takes a GMT offset (integer between -12 and +12).
-// Returns an array of city objects whose bitmask matches the search mask.
-function searchByOffset(gmtOffset) {
-  const offset = parseInt(gmtOffset, 10);
-
-  if (isNaN(offset) || offset < -12 || offset > 12) {
-    return { error: "Please enter a valid GMT offset between -12 and +12." };
+function validateOffset(gmtOffset) {
+  const offset = parseFloat(gmtOffset);
+  // Half-hour offsets are multiples of 0.5, so we check for that too.
+  if (isNaN(offset) || offset < -12 || offset > 12 || (offset * 2) % 1 !== 0) {
+    return { error: "Please enter a valid GMT offset between -12 and +12 in 30-minute increments (e.g. 5.5 for GMT+5:30)." };
   }
+  return { offset };
+}
+
+function searchByOffset(gmtOffset) {
+  const { offset, error } = validateOffset(gmtOffset);
+  if (error) return { error };
 
   const searchMask = getBitmask(offset);
-
-  const results = citiesWithMasks.filter(city => (city.bitmask & searchMask) !== 0);
-
+  const results = citiesWithMasks.filter(city => (city.bitmask & searchMask) !== 0n);
   return { results };
 }
 
-// Takes a GMT offset and returns all cities NOT in that timezone.
-// ~searchMask flips every bit, so AND-ing against it matches any city
-// whose bit is set somewhere other than the target timezone position.
 function searchExcludingOffset(gmtOffset) {
-  const offset = parseInt(gmtOffset, 10);
-
-  if (isNaN(offset) || offset < -12 || offset > 12) {
-    return { error: "Please enter a valid GMT offset between -12 and +12." };
-  }
+  const { offset, error } = validateOffset(gmtOffset);
+  if (error) return { error };
 
   const searchMask = getBitmask(offset);
   const exclusionMask = ~searchMask;
-
-  const results = citiesWithMasks.filter(city => (city.bitmask & exclusionMask) !== 0);
-
+  const results = citiesWithMasks.filter(city => (city.bitmask & exclusionMask) !== 0n);
   return { results };
 }
 
