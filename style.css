@@ -103,81 +103,18 @@ button:active {
   background: #000;
 }
 
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
 .hint {
   margin-top: 0.5rem;
   font-size: 0.78rem;
   color: #999;
 }
 
-/* City list */
-
-.cities-section,
-.results-section {
-  background: #fff;
-  border: 0.5px solid #ddd;
-  border-radius: 10px;
-  padding: 1.25rem;
-  margin-bottom: 1.25rem;
-}
-
-.city-list {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 0.4rem;
-}
-
-.city-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.45rem 0.6rem;
-  border-radius: 6px;
-  font-size: 0.88rem;
-}
-
-.city-list li .city-name {
-  color: #1c1c1b;
-}
-
-.city-list li .city-offset {
-  font-size: 0.78rem;
-  color: #999;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Highlighted results */
-
-.city-list.results li {
-  background: #f0fdf4;
-  border: 0.5px solid #86efac;
-}
-
-.city-list.results li .city-name {
-  font-weight: 500;
-  color: #166534;
-}
-
-.city-list.results li .city-offset {
-  color: #4ade80;
-}
-
-/* Error */
-
-.error {
-  font-size: 0.88rem;
-  color: #b91c1c;
-  padding: 0.6rem 0.75rem;
-  background: #fef2f2;
-  border: 0.5px solid #fca5a5;
-  border-radius: 6px;
-}
-
-[hidden] {
-  display: none !important;
-}
-
-/* Search mode radio buttons */
+/* Radio buttons */
 
 .mode-group {
   display: flex;
@@ -199,37 +136,7 @@ button:active {
   cursor: pointer;
 }
 
-/* Results header with count */
-
-.results-header {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 0.75rem;
-}
-
-.results-header h2 {
-  margin-bottom: 0;
-}
-
-.count-badge {
-  font-size: 0.75rem;
-  font-weight: 500;
-  background: #1c1c1b;
-  color: #fff;
-  padding: 0.2rem 0.55rem;
-  border-radius: 999px;
-}
-
-/* Count emphasis inside results heading */
-
-.count-number {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #1c1c1b;
-}
-
-/* Dataset stats panel */
+/* Dataset stats */
 
 .stats-section {
   background: #fff;
@@ -268,6 +175,64 @@ button:active {
   letter-spacing: 0.05em;
 }
 
+/* Results section */
+
+.results-section {
+  background: #fff;
+  border: 0.5px solid #ddd;
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.count-number {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1c1c1b;
+}
+
+/* City list */
+
+.city-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.4rem;
+}
+
+.city-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.88rem;
+}
+
+.city-list li .city-name {
+  color: #1c1c1b;
+}
+
+.city-list li .city-offset {
+  font-size: 0.78rem;
+  color: #999;
+  font-variant-numeric: tabular-nums;
+}
+
+.city-list.results li {
+  background: #f0fdf4;
+  border: 0.5px solid #86efac;
+}
+
+.city-list.results li .city-name {
+  font-weight: 500;
+  color: #166534;
+}
+
+.city-list.results li .city-offset {
+  color: #4ade80;
+}
+
 /* Result cap note */
 
 .result-cap-note {
@@ -278,4 +243,87 @@ button:active {
   border-top: 0.5px solid #eee;
   margin-top: 0.25rem;
   list-style: none;
+}
+
+/* Error */
+
+.error {
+  font-size: 0.88rem;
+  color: #b91c1c;
+  padding: 0.6rem 0.75rem;
+  background: #fef2f2;
+  border: 0.5px solid #fca5a5;
+  border-radius: 6px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Pill filter */
+
+.filter-section {
+  margin-bottom: 1rem;
+}
+
+.filter-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6b6b6b;
+  margin-bottom: 0.5rem;
+}
+
+.pill-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.8rem;
+  border-radius: 999px;
+  border: 0.5px solid #ddd;
+  background: #f5f5f4;
+  color: #555;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.1s, border-color 0.1s, color 0.1s;
+}
+
+.pill:hover {
+  border-color: #bbb;
+  background: #eee;
+}
+
+.pill.active {
+  background: #1c1c1b;
+  border-color: #1c1c1b;
+  color: #fff;
+}
+
+.pill .pill-count {
+  font-size: 0.72rem;
+  opacity: 0.7;
+}
+
+.show-more-btn {
+  margin-top: 0.5rem;
+  background: none;
+  color: #555;
+  border: none;
+  font-size: 0.8rem;
+  padding: 0.2rem 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.show-more-btn:hover {
+  background: none;
+  color: #1c1c1b;
 }
