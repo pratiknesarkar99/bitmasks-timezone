@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bit Masks: City Timezone Finder</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Bit Mask City Finder</h1>
+      <p class="subtitle">Cities are matched to timezones using bitwise AND operations, no equality checks.</p>
+    </header>
+
+    <main>
+      <section class="search-section">
+        <label for="gmt-input">GMT Offset</label>
+        <div class="search-row">
+          <input type="number" id="gmt-input" placeholder="e.g. -4" min="-12" max="12" />
+          <button id="find-btn">Find Cities</button>
+        </div>
+        <p class="hint">Enter an integer between -12 and +12</p>
+      </section>
+
+      <section class="cities-section">
+        <h2>All Cities</h2>
+        <ul id="city-list" class="city-list">
+          <!-- populated by main.js -->
+        </ul>
+      </section>
+
+      <section class="results-section" id="results-section" hidden>
+        <h2 id="results-heading">Results</h2>
+        <ul id="results-list" class="city-list results">
+          <!-- populated by main.js -->
+        </ul>
+      </section>
+
+      <p id="error-msg" class="error" hidden></p>
+    </main>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+
+</html>

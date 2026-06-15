@@ -1,0 +1,178 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background: #f5f5f4;
+  color: #1c1c1b;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+header {
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  color: #6b6b6b;
+  line-height: 1.5;
+}
+
+h2 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6b6b6b;
+  margin-bottom: 0.75rem;
+}
+
+/* Search */
+
+.search-section {
+  background: #fff;
+  border: 0.5px solid #ddd;
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-section label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.search-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+input[type="number"] {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 0.5px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  background: #fafafa;
+  color: #1c1c1b;
+}
+
+input[type="number"]:focus {
+  border-color: #555;
+  background: #fff;
+}
+
+button {
+  padding: 0.5rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: #1c1c1b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+button:hover {
+  background: #333;
+}
+
+button:active {
+  background: #000;
+}
+
+.hint {
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: #999;
+}
+
+/* City list */
+
+.cities-section,
+.results-section {
+  background: #fff;
+  border: 0.5px solid #ddd;
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.city-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.4rem;
+}
+
+.city-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.88rem;
+}
+
+.city-list li .city-name {
+  color: #1c1c1b;
+}
+
+.city-list li .city-offset {
+  font-size: 0.78rem;
+  color: #999;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Highlighted results */
+
+.city-list.results li {
+  background: #f0fdf4;
+  border: 0.5px solid #86efac;
+}
+
+.city-list.results li .city-name {
+  font-weight: 500;
+  color: #166534;
+}
+
+.city-list.results li .city-offset {
+  color: #4ade80;
+}
+
+/* Error */
+
+.error {
+  font-size: 0.88rem;
+  color: #b91c1c;
+  padding: 0.6rem 0.75rem;
+  background: #fef2f2;
+  border: 0.5px solid #fca5a5;
+  border-radius: 6px;
+}
+
+[hidden] {
+  display: none !important;
+}
