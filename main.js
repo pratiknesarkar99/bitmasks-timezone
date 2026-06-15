@@ -11,14 +11,16 @@ const filterSection = document.getElementById("filter-section");
 const pillContainer = document.getElementById("pill-container");
 const showMoreBtn = document.getElementById("show-more-btn");
 
-const LIMIT = 100;
+const PAGE_SIZE = 50;
 const PILL_LIMIT = 10;
 
 let cities = [];
 let currentResults = [];
+let filteredResults = [];
 let activePills = new Set();
 let showingAllPills = false;
 let allIanaIds = [];
+let currentPage = 1;
 
 // --- Formatting ---
 
@@ -31,7 +33,6 @@ function formatOffset(offset) {
   return `GMT ${sign}${hours}:${paddedMin}`;
 }
 
-// Africa/Algiers -> Africa · Algiers
 function formatIanaId(id) {
   return id.replace(/\//g, " · ");
 }
@@ -96,19 +97,15 @@ function renderPills(countById) {
     </span>
   `).join("");
 
-  // Show more / show less button
   if (allIanaIds.length > PILL_LIMIT) {
     const remaining = allIanaIds.length - PILL_LIMIT;
     showMoreBtn.hidden = false;
-    showMoreBtn.textContent = showingAllPills
-      ? "Show less"
-      : `Show ${remaining} more`;
+    showMoreBtn.textContent = showingAllPills ? "Show less" : `Show ${remaining} more`;
   } else {
     showMoreBtn.hidden = true;
   }
 }
 
-// Re-render pills keeping the same countById, called when toggling show more.
 function refreshPills() {
   const countById = {};
   for (const city of currentResults) {
@@ -117,30 +114,68 @@ function refreshPills() {
   renderPills(countById);
 }
 
-// --- Result rendering ---
+// --- Pagination ---
 
-function renderResults(results) {
-  const count = results.length;
-  const visible = results.slice(0, LIMIT);
-
-  resultsList.innerHTML = visible.map(cityRow).join("");
-
-  if (count > LIMIT) {
-    resultsList.innerHTML += `
-      <li class="result-cap-note">
-        Showing ${LIMIT} of ${count.toLocaleString()} cities.
-      </li>
-    `;
-  }
+function getPagination(total, page) {
+  return {
+    totalPages: Math.ceil(total / PAGE_SIZE),
+    start: (page - 1) * PAGE_SIZE,
+    end: page * PAGE_SIZE,
+  };
 }
 
-// Apply active pill filters to currentResults and re-render.
+function renderPagination(total) {
+  const existing = document.getElementById("pagination");
+  if (existing) existing.remove();
+
+  if (total <= PAGE_SIZE) return;
+
+  const { totalPages } = getPagination(total, currentPage);
+
+  const nav = document.createElement("div");
+  nav.id = "pagination";
+  nav.className = "pagination";
+  nav.innerHTML = `
+    <button id="prev-btn" ${currentPage === 1 ? "disabled" : ""}>← Prev</button>
+    <span class="page-info">Page ${currentPage} of ${totalPages}</span>
+    <button id="next-btn" ${currentPage === totalPages ? "disabled" : ""}>Next →</button>
+  `;
+
+  resultsSection.appendChild(nav);
+
+  document.getElementById("prev-btn").addEventListener("click", () => {
+    currentPage--;
+    renderPage();
+  });
+
+  document.getElementById("next-btn").addEventListener("click", () => {
+    currentPage++;
+    renderPage();
+  });
+}
+
+function renderPage() {
+  const total = filteredResults.length;
+  const { start, end } = getPagination(total, currentPage);
+  const pageResults = filteredResults.slice(start, end);
+
+  resultsList.innerHTML = pageResults.map(cityRow).join("");
+  renderPagination(total);
+
+  // Scroll back to results heading when page changes.
+  resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+// --- Filter ---
+
 function applyFilter() {
-  const filtered = activePills.size === 0
+  filteredResults = activePills.size === 0
     ? currentResults
     : currentResults.filter(city => activePills.has(city.timezoneId));
 
-  const count = filtered.length;
+  currentPage = 1;
+
+  const count = filteredResults.length;
   const mode = getSelectedMode();
   const offsetLabel = formatOffset(parseFloat(input.value));
   const cityWord = count === 1 ? "city" : "cities";
@@ -150,12 +185,11 @@ function applyFilter() {
     ? `No cities match the selected filters`
     : `<span class="count-number">${count.toLocaleString()}</span> ${cityWord} ${context}`;
 
-  renderResults(filtered);
+  renderPage();
 }
 
 // --- Event listeners ---
 
-// Pill clicks: toggle active state and re-filter.
 pillContainer.addEventListener("click", e => {
   const pill = e.target.closest(".pill");
   if (!pill) return;
@@ -172,7 +206,6 @@ pillContainer.addEventListener("click", e => {
   applyFilter();
 });
 
-// Show more / show less toggle.
 showMoreBtn.addEventListener("click", () => {
   showingAllPills = !showingAllPills;
   refreshPills();
@@ -186,6 +219,10 @@ function clearResults() {
   showMoreBtn.hidden = true;
   activePills.clear();
   currentResults = [];
+  filteredResults = [];
+  currentPage = 1;
+  const existing = document.getElementById("pagination");
+  if (existing) existing.remove();
   errorMsg.hidden = true;
   errorMsg.textContent = "";
 }
@@ -210,6 +247,7 @@ function handleSearch() {
 
   resultsSection.hidden = false;
   currentResults = results;
+  filteredResults = results;
 
   const offsetLabel = formatOffset(parseFloat(input.value));
   const count = results.length;
@@ -225,7 +263,7 @@ function handleSearch() {
   resultsHeading.innerHTML = `<span class="count-number">${count.toLocaleString()}</span> ${cityWord} ${context}`;
 
   buildPills(results);
-  renderResults(results);
+  renderPage();
 }
 
 findBtn.addEventListener("click", handleSearch);
