@@ -267,3 +267,15 @@ button:active {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
+/* Result cap note */
+
+.result-cap-note {
+  grid-column: 1 / -1;
+  font-size: 0.8rem;
+  color: #888;
+  padding: 0.5rem 0.6rem;
+  border-top: 0.5px solid #eee;
+  margin-top: 0.25rem;
+  list-style: none;
+}

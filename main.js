@@ -8,7 +8,8 @@ const resultsHeading = document.getElementById("results-heading");
 const resultsList = document.getElementById("results-list");
 const errorMsg = document.getElementById("error-msg");
 
-// Cities are loaded once at startup and held in memory for all searches.
+const LIMIT = 100;
+
 let cities = [];
 
 function formatOffset(offset) {
@@ -88,7 +89,15 @@ function handleSearch() {
   const context = mode === "include" ? `in ${offsetLabel}` : `outside ${offsetLabel}`;
   resultsHeading.innerHTML = `<span class="count-number">${count.toLocaleString()}</span> ${cityWord} ${context}`;
 
-  resultsList.innerHTML = results.map(cityRow).join("");
+  resultsList.innerHTML = results.slice(0, LIMIT).map(cityRow).join("");
+
+  if (count > LIMIT) {
+    resultsList.innerHTML += `
+      <li class="result-cap-note">
+        Showing ${LIMIT} of ${count.toLocaleString()} cities. Narrow your search to see more specific results.
+      </li>
+    `;
+  }
 }
 
 findBtn.addEventListener("click", handleSearch);
@@ -96,7 +105,6 @@ input.addEventListener("keydown", e => {
   if (e.key === "Enter") handleSearch();
 });
 
-// Load cities on startup, then populate stats and enable the UI.
 loadCities().then(loaded => {
   cities = loaded;
   populateStats();
@@ -107,5 +115,4 @@ loadCities().then(loaded => {
   errorMsg.hidden = false;
 });
 
-// Disable the button until data is ready.
 findBtn.disabled = true;
