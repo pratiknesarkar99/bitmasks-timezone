@@ -16,4 +16,22 @@ function searchByOffset(gmtOffset) {
   return { results };
 }
 
-export { searchByOffset };
+// Takes a GMT offset and returns all cities NOT in that timezone.
+// ~searchMask flips every bit, so AND-ing against it matches any city
+// whose bit is set somewhere other than the target timezone position.
+function searchExcludingOffset(gmtOffset) {
+  const offset = parseInt(gmtOffset, 10);
+
+  if (isNaN(offset) || offset < -12 || offset > 12) {
+    return { error: "Please enter a valid GMT offset between -12 and +12." };
+  }
+
+  const searchMask = getBitmask(offset);
+  const exclusionMask = ~searchMask;
+
+  const results = citiesWithMasks.filter(city => (city.bitmask & exclusionMask) !== 0);
+
+  return { results };
+}
+
+export { searchByOffset, searchExcludingOffset };

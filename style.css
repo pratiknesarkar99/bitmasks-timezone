@@ -176,3 +176,25 @@ button:active {
 [hidden] {
   display: none !important;
 }
+
+/* Search mode radio buttons */
+
+.mode-group {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 0.85rem;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: #1c1c1b;
+  cursor: pointer;
+}
+
+.radio-label input[type="radio"] {
+  accent-color: #1c1c1b;
+  cursor: pointer;
+}
