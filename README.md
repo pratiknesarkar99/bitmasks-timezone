@@ -8,6 +8,8 @@ A timezone city search tool that demonstrates how bitwise AND operations can rep
 
 Enter a GMT offset and find every city in that timezone, or every city outside it. Results can be narrowed further by IANA timezone identifier using a pill-style filter. All matching is done at the bit level, not with `===`.
 
+<img width="1261" height="664" alt="image" src="https://github.com/user-attachments/assets/6b829d04-d197-4006-8913-3db616979d07" />
+
 ---
 
 ## The core concept
